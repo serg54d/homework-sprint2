@@ -1,42 +1,23 @@
 import { UserType } from '../HW8'
 
 type ActionType =
-	| { type: 'sort'; payload: 'up' | 'down' }
-	| { type: 'check'; payload: number }
+  | { type: 'sort'; payload: 'up' | 'down' }
+  | { type: 'check'; payload: number }
 
-export const homeWorkReducer = (state: UserType[], action: ActionType): UserType[] => { // need to fix any
-	// let stateCopy: UserType[];
-	switch (action.type) {
-		case 'sort': { // by name
-			// let stateCopy: UserType[];
-			if (action.payload === 'up') {
-				state = state.sort((a, b) => {
-					if (a.name.toLowerCase() < b.name.toLowerCase()) {
-						return - 1
-					}
-					if (a.name.toLowerCase() > b.name.toLowerCase()) {
-						return 1;
-					}
-					return 0
-				})
-			} else if (action.payload === 'down') {
-				state = state.sort((a, b) => {
-					if (a.name.toLowerCase() > b.name.toLowerCase()) {
-						return - 1
-					}
-					if (a.name.toLowerCase() < b.name.toLowerCase()) {
-						return 1;
-					}
-					return 0
-				})
-			}
-			return [...state]
-		}
-		case 'check': {
-
-			return state.filter(e => e.age! >= 18)
-		}
-		default:
-			return state
-	}
+export const homeWorkReducer = (state: UserType[], action: ActionType): UserType[] => {
+  switch (action.type) {
+    case 'sort': {
+      const sortedState = [...state].sort((a, b) => {
+       if (a.name > b.name) return 1
+	   else if (a.name < b.name) return -1
+	   else return 0
+      });
+      return action.payload ==='up'? sortedState:sortedState.reverse();
+    }
+    case 'check': {
+		  return state.filter(user => user.age >= action.payload);;
+    }
+    default:
+      return state;
+  }
 }
