@@ -12,49 +12,75 @@ import s from './HW6.module.css'
  */
 
 const HW6 = () => {
-    const [value, setValue] = useState<string>('')
+	const [value, setValue] = useState<string>('')
 
-    const save = () => {
-        saveState<string>('hw6-editable-span-value', value)
-    }
-    const restore = () => {
-        // делают студенты
+	const save = () => {
+		saveState<string>('hw6-editable-span-value', value)
+	}
+	const restore = () => {
+		// делают студенты
+		setValue(restoreState('hw6-editable-span-value', value))
+		
 
-    }
+	}
 
-    return (
-        <div id={'hw6'}>
-            <div className={s2.hwTitle}>Homework #6</div>
+	const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+			setValue(e.currentTarget.value)
+			save()
+		}
 
-            {/*демонстрация возможностей компоненты:*/}
-            <div className={s2.hw}>
-                <div className={s.editableSpanContainer}>
-                    <SuperEditableSpan
-                        id={'hw6-spanable-input'}
-                        value={value}
-                        onChangeText={setValue}
-                        spanProps={{
-                            id: 'hw6-editable-span',
-                            defaultText: 'enter text...',
-                        }}
-                    />
-                </div>
+	}
 
-                <div className={s.buttonsContainer}>
-                    <SuperButton id={'hw6-save'} onClick={save}>
-                        Save to ls
-                    </SuperButton>
-                    <SuperButton
-                        id={'hw6-restore'}
-                        onClick={restore}
-                        xType={'secondary'}
-                    >
-                        Get from ls
-                    </SuperButton>
-                </div>
-            </div>
-        </div>
-    )
+	const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+		if (!e.currentTarget.onfocus) {
+			setValue(e.currentTarget.value)
+			save()
+		}
+	}
+
+	const onDoubleClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+		if (e.currentTarget.ondblclick)
+			// setValue(e.currentTarget.value)
+			save()
+	}
+
+	return (
+		<div id={'hw6'}>
+			<div className={s2.hwTitle}>Homework #6</div>
+
+			{/*демонстрация возможностей компоненты:*/}
+			<div className={s2.hw}>
+				<div className={s.editableSpanContainer}>
+					<SuperEditableSpan
+						id={'hw6-spanable-input'}
+						value={value}
+						onChangeText={setValue}
+						spanProps={{
+							id: 'hw6-editable-span',
+							defaultText: 'enter text...',
+						}}
+						onEnter={onEnter}
+						onBlur={onBlur}
+						onDoubleClick={onDoubleClick}
+					/>
+				</div>
+
+				<div className={s.buttonsContainer}>
+					<SuperButton id={'hw6-save'} onClick={save}>
+						Save to ls
+					</SuperButton>
+					<SuperButton
+						id={'hw6-restore'}
+						onClick={restore}
+						xType={'secondary'}
+					>
+						Get from ls
+					</SuperButton>
+				</div>
+			</div>
+		</div>
+	)
 }
 
 export default HW6

@@ -1,11 +1,22 @@
 .App {
-    --header_height: 60px;
+	--header_height: 60px;
+	/* background-color: green; */
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	/* align-items: center; */
+	width: 100%;
+	/* justify-content: center; */
 }
 
 .hw {
-
+	/* background-color: red; */
+	display: flex;
+	flex-direction: column;
+	/* justify-content: center; */
+	max-width: 1200px;
+	margin: 0 auto;
 }
 
 .hwTitle {
-
 }
